@@ -52,7 +52,7 @@ API_BASE=https://myapp.api/
 _./webpack.dev.js_
 
 ```diff
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
 ```
@@ -63,7 +63,9 @@ _./webpack.dev.js_
 module.exports = merge(common, {
   mode: "development",
   devtool: "inline-source-map",
-  stats: "errors-only",
+  devServer: {
+    stats: "errors-only",
+  },
 + plugins: [
 +   new Dotenv({
 +     path: './dev.env',
@@ -77,7 +79,7 @@ module.exports = merge(common, {
 _./webpack.prod.js_
 
 ```diff
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 + const Dotenv = require('dotenv-webpack');
 ```
@@ -85,7 +87,7 @@ const common = require("./webpack.common.js");
 _./webpack.prod.js_
 
 ```diff
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
@@ -119,7 +121,7 @@ _./package.json_
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "start:dev": "webpack-dev-server --mode development --open --config webpack.dev.js",
-+    "start:prod": "webpack-dev-server --mode development --open --config webpack.prod.js",
++   "start:prod": "webpack serve --config webpack.prod.js",
     "build:dev": "rimraf dist && webpack --config webpack.dev.js",
     "build:prod": "rimraf dist && webpack --config webpack.prod.js"
   },
@@ -157,4 +159,3 @@ We are an innovating team of Javascript experts, passionate about turning your i
 [Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
 For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
-
